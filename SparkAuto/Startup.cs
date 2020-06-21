@@ -44,6 +44,8 @@ namespace SparkAuto
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
+            services.AddScoped<IDbInitiliazer, DbInitiliazer>();
+
             services.AddAuthentication().AddFacebook(fb =>
             {
                 fb.AppId = "257660282181038";
@@ -65,7 +67,7 @@ namespace SparkAuto
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitiliazer dbInitiliazer)
         {
             if (env.IsDevelopment())
             {
@@ -79,6 +81,7 @@ namespace SparkAuto
                 app.UseHsts();
             }
 
+            dbInitiliazer.Initiliazer();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
