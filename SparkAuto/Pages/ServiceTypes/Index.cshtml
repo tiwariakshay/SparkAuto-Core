@@ -1,0 +1,70 @@
+﻿@page
+@model SparkAuto.Pages.ServiceTypes.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+
+<div class="border backgroundwhite">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">Service Type List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-page="Create" class="btn btn-info">
+                <i class="fas fa-plus"></i>&nbsp;Create New
+            </a>
+        </div>
+    </div>
+    <br />
+    <div>
+        @if (Model.ServiceTypes.Count() == 0)
+        {
+            <p>No service types exists. Please create a new one!</p>
+        }
+        else
+        {
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        @Html.DisplayNameFor(m => m.ServiceTypes[0].Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.ServiceTypes[0].Price)
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                @foreach (var serviceType in Model.ServiceTypes)
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => serviceType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => serviceType.Price)
+                </td>
+                <td style="width:150px;">
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-primary text-white" asp-page="Edit" asp-route-Id="@serviceType.Id">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn btn-success text-white" asp-page="Details" asp-route-Id="@serviceType.Id">
+                            <i class="fas fa-list"></i>
+                        </a>
+                        <a class="btn btn-danger text-white" asp-page="Delete" asp-route-Id="@serviceType.Id">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+                }
+            </table>
+        }
+    </div>
+
+</div>

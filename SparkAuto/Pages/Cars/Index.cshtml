@@ -1,0 +1,120 @@
+﻿@page
+@model SparkAuto.Pages.Cars.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<h2 class="text-info py-2">Cars Record for Customer</h2>
+
+<div class="container backgroundwhite">
+    <div class="card-header bg-dark text-light ml-0 row container">
+        <div class="col-6">
+            <i class="fas fa-car"></i>
+        </div>
+        <div class="col-6 text-right">
+            @if (User.IsInRole(SparkAuto.Utility.StaticDetails.AdminEndUser))
+            {
+                <a asp-page="/Users/Index" class="btn btn-outline-info btn-sm">Back to Users</a>
+            }
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row" style="padding-bottom:40px;padding-top:20px">
+            <div class="col-md-3">
+                <p>
+                    <a asp-page="Create" asp-route-userId="@Model.CarAndCustomerViewModel.UserObj.Id" class="btn btn-info form-control">
+                        <i class="fas fa-plus"></i>&nbsp; Add New Car
+                    </a>
+                </p>
+            </div>
+            <div class="col-md-6 offset-3">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label asp-for="CarAndCustomerViewModel.UserObj.Name"></label>
+                    </div>
+                    <div class="col-sm-8" style="padding-bottom:5px">
+                        <input asp-for="CarAndCustomerViewModel.UserObj.Name" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label asp-for="CarAndCustomerViewModel.UserObj.Email"></label>
+                    </div>
+                    <div class="col-sm-8" style="padding-bottom:5px">
+                        <input asp-for="CarAndCustomerViewModel.UserObj.Email" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label asp-for="CarAndCustomerViewModel.UserObj.PhoneNumber"></label>
+                    </div>
+                    <div class="col-sm-8" style="padding-bottom:5px">
+                        <input asp-for="CarAndCustomerViewModel.UserObj.PhoneNumber" class="form-control" disabled />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.CarAndCustomerViewModel.Cars.Count() == 0)
+        {
+            <p>
+                No Car found! Please add a Car..
+            </p>
+        }
+        else
+        {
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        @Html.DisplayNameFor(m => m.CarAndCustomerViewModel.Cars.FirstOrDefault().VIN)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.CarAndCustomerViewModel.Cars.FirstOrDefault().Make)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.CarAndCustomerViewModel.Cars.FirstOrDefault().Model)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.CarAndCustomerViewModel.Cars.FirstOrDefault().Color)
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.CarAndCustomerViewModel.Cars)
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.VIN)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Make)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Color)
+                </td>
+                <td></td>
+                <td></td>
+                <td >
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-primary text-white" asp-page="Edit" asp-route-Id="@item.Id">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger text-white" asp-page="Delete" asp-route-Id="@item.Id">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+                }
+            </table>
+        }
+
+    </div>
+</div>
